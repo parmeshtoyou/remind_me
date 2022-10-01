@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:remind_me/business/NoteListModel.dart';
+import 'package:remind_me/core/utils.dart';
 import 'package:remind_me/resource/strings.dart';
 import 'package:remind_me/widgets/input_field_widget.dart';
 
@@ -96,7 +96,7 @@ class _AddNotePageState extends State<AddNotePage> {
                   Expanded(
                     flex: 1,
                     child: Text(_purchaseDate != null
-                        ? getFormattedDate(_purchaseDate.toString())
+                        ? getFormattedDate(_purchaseDate!)
                         : Strings.emptyString),
                   )
                 ],
@@ -127,7 +127,7 @@ class _AddNotePageState extends State<AddNotePage> {
                   ),
                   Expanded(
                     child: Text(_expireDate != null
-                        ? getFormattedDate(_expireDate.toString())
+                        ? getFormattedDate(_expireDate!)
                         : Strings.emptyString),
                   ),
                 ],
@@ -137,13 +137,6 @@ class _AddNotePageState extends State<AddNotePage> {
         ),
       ),
     );
-  }
-
-  String getFormattedDate(String dateTime) {
-    DateFormat inputFormat = DateFormat('yyyy-MM-dd HH:mm');
-    DateTime inputDate = inputFormat.parse(dateTime);
-    DateFormat outputFormat = DateFormat('dd/MM/yyyy');
-    return outputFormat.format(inputDate);
   }
 
   TextEditingController nameTextController = TextEditingController();

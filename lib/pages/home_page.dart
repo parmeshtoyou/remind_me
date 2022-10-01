@@ -24,14 +24,21 @@ class _HomePageState extends State<HomePage> {
       ),
       body: widget.listModel.getNotes().isEmpty
           ? const Center(
-              child: Text("Nothing to Remind..."),
+              child: Text(Strings.nothingToRemind),
             )
           : ReminderListWidget(
               onNoteClickListener: (Note note) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => NoteDetailPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NoteDetailPage(
+                      note: note,
+                    ),
+                  ),
+                );
               },
-              notesListModel: widget.listModel),
+              notesListModel: widget.listModel,
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

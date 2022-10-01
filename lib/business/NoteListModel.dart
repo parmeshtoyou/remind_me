@@ -6,10 +6,6 @@ class NotesListModel {
   }
 
   List<Note> getNotes() => _list;
-
-  // void updateNote(int noteId, Note updated) {
-  //   _list.map((e) => null)
-  // }
 }
 
 class Note {
