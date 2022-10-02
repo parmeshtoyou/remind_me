@@ -24,7 +24,10 @@ class _HomePageState extends State<HomePage> {
       ),
       body: widget.listModel.getNotes().isEmpty
           ? const Center(
-              child: Text(Strings.nothingToRemind),
+              child: Text(
+                Strings.nothingToRemind,
+                style: TextStyle(fontSize: 18.0),
+              ),
             )
           : ReminderListWidget(
               onNoteClickListener: (Note note) {
