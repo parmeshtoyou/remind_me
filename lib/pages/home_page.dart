@@ -3,6 +3,7 @@ import 'package:remind_me/pages/note_add_page.dart';
 import 'package:remind_me/pages/note_detail_page.dart';
 import 'package:remind_me/resource/strings.dart';
 import 'package:remind_me/widgets/reminder_list_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../business/NoteListModel.dart';
 
@@ -41,18 +42,19 @@ class _HomePageState extends State<HomePage> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddNotePage(
-                addNoteCallback: (Note newNote) {
-                  setState(() {
-                    widget.listModel.saveNote(newNote);
-                  });
-                },
-              ),
-            ),
-          );
+          _makePhoneCall("8147015864");
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => AddNotePage(
+          //       addNoteCallback: (Note newNote) {
+          //         setState(() {
+          //           widget.listModel.saveNote(newNote);
+          //         });
+          //       },
+          //     ),
+          //   ),
+          // );
         },
         backgroundColor: Colors.purple,
         child: const Icon(Icons.add),
@@ -65,5 +67,13 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
   }
 }
