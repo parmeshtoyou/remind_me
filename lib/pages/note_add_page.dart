@@ -4,6 +4,8 @@ import 'package:remind_me/core/utils.dart';
 import 'package:remind_me/resource/strings.dart';
 import 'package:remind_me/widgets/input_field_widget.dart';
 
+import '../core/dimens.dart';
+
 class AddNotePage extends StatefulWidget {
   final Function(Note newNote) addNoteCallback;
 
@@ -46,7 +48,7 @@ class _AddNotePageState extends State<AddNotePage> {
       ),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(Dimens.dimen_16),
           child: Column(
             children: [
               InputField(
@@ -91,7 +93,7 @@ class _AddNotePageState extends State<AddNotePage> {
                     ),
                   ),
                   const SizedBox(
-                    width: 16.0,
+                    width: Dimens.dimen_16,
                   ),
                   Expanded(
                     flex: 1,
@@ -123,7 +125,7 @@ class _AddNotePageState extends State<AddNotePage> {
                     ),
                   ),
                   const SizedBox(
-                    width: 16.0,
+                    width: Dimens.dimen_16,
                   ),
                   Expanded(
                     child: Text(_expireDate != null

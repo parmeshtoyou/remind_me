@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:remind_me/core/dimens.dart';
 import 'package:remind_me/pages/note_add_page.dart';
 import 'package:remind_me/pages/note_detail_page.dart';
 import 'package:remind_me/resource/strings.dart';
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
           ? const Center(
               child: Text(
                 Strings.nothingToRemind,
-                style: TextStyle(fontSize: 18.0),
+                style: TextStyle(fontSize: Dimens.dimen_18),
               ),
             )
           : ReminderListWidget(
@@ -63,7 +64,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomAppBar(
         color: Colors.teal,
         child: Container(
-          height: 50.0,
+          height: Dimens.dimen_50,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
