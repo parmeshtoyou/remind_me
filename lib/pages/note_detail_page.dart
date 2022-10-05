@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:remind_me/business/NoteListModel.dart';
 import 'package:remind_me/core/utils.dart';
 import 'package:remind_me/resource/strings.dart';
@@ -21,9 +22,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.edit),
-        onPressed: () {
-
-        },
+        onPressed: () {},
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,8 +40,14 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
               style: const TextStyle(color: Colors.blue),
             ),
             Text(
-                "${Strings.expiringOn} ${getFormattedDate(widget.note.expiresOn)}",
-                style: const TextStyle(color: Colors.red)),
+              "${Strings.expiringOn} ${getFormattedDate(widget.note.expiresOn)}",
+              style: const TextStyle(color: Colors.red),
+            ),
+            SvgPicture.asset(
+              "assets/icons/sample_svg.svg",
+              height: 24.0,
+              width: 24.0,
+            )
           ],
         ),
       ),
