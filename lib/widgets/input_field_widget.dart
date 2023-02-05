@@ -33,7 +33,10 @@ class _InputFieldState extends State<InputField> {
             onChanged: (newText) {
               widget.onTextChange(newText);
             },
-            decoration: InputDecoration(hintText: widget.hintText),
+            decoration: InputDecoration(
+              hintText: widget.hintText,
+              counter: Text("count:${widget.controller.text.length}"),
+            ),
             onSubmitted: (text) async {
               setState(() {
                 enteredText = text;
