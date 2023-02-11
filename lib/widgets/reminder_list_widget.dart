@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:remind_me/business/NoteListModel.dart';
+import 'package:remind_me/business/note_list_model.dart';
 
 class ReminderListWidget extends StatefulWidget {
   final Function(Note) onNoteClickListener;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:remind_me/business/NoteListModel.dart';
+import 'package:remind_me/business/note_list_model.dart';
+import 'package:remind_me/core/dimens.dart';
 import 'package:remind_me/core/utils.dart';
 import 'package:remind_me/resource/strings.dart';
 import 'package:remind_me/widgets/input_field_widget.dart';
 
-import '../core/dimens.dart';
 
 class AddNotePage extends StatefulWidget {
   final Function(Note newNote) addNoteCallback;

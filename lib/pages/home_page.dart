@@ -1,13 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:remind_me/business/note_list_model.dart';
 import 'package:remind_me/core/dimens.dart';
 import 'package:remind_me/pages/note_add_page.dart';
 import 'package:remind_me/pages/note_detail_page.dart';
 import 'package:remind_me/resource/strings.dart';
-import 'package:remind_me/widgets/note_time_line.dart';
 import 'package:remind_me/widgets/reminder_list_widget.dart';
-
-import '../business/NoteListModel.dart';
 
 class HomePage extends StatefulWidget {
   final NotesListModel listModel;
@@ -25,16 +24,17 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> checkAvailability() async {
     try {
-
       var available = await methodChannel.invokeMethod('testMethod', <String, String> {
         "key" : "Hello From Flutter to Native Android"
       });
-      print("available: $available");
+
       setState(() {
         _sensorAvailable = 'Sensor Available:$available';
       });
     } on PlatformException catch (e) {
-      print("Exception: $e");
+      if (kDebugMode) {
+        print("Exception: $e");
+      }
     }
   }
 

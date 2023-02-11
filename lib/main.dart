@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:remind_me/business/NoteListModel.dart';
+import 'package:remind_me/business/note_list_model.dart';
 import 'package:remind_me/pages/home_page.dart';
 import 'package:remind_me/resource/strings.dart';
 
