@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:remind_me/business/note_list_model.dart';
 import 'package:remind_me/core/dimens.dart';
 import 'package:remind_me/pages/note_add_page.dart';
@@ -18,48 +16,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const methodChannel = MethodChannel('com.param.remindme/method');
-
-  String _sensorAvailable = 'Unknown';
-
-  Future<void> checkAvailability() async {
-    try {
-      var available = await methodChannel.invokeMethod('testMethod', <String, String> {
-        "key" : "Hello From Flutter to Native Android"
-      });
-
-      setState(() {
-        _sensorAvailable = 'Sensor Available:$available';
-      });
-    } on PlatformException catch (e) {
-      if (kDebugMode) {
-        print("Exception: $e");
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(Strings.appName),
       ),
-      body: widget.listModel.getNotes().isEmpty
-          ? SensorStatusWidget(
-              isSensorAvailable: _sensorAvailable, callback: checkAvailability)
-          : ReminderListWidget(
-              onNoteClickListener: (Note note) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NoteDetailPage(
-                      note: note,
-                    ),
-                  ),
-                );
-              },
-              notesListModel: widget.listModel,
+      body: ReminderListWidget(
+        onNoteClickListener: (Note note) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NoteDetailPage(
+                note: note,
+              ),
             ),
+          );
+        },
+        notesListModel: widget.listModel,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -85,29 +60,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-}
-
-class SensorStatusWidget extends StatelessWidget {
-  const SensorStatusWidget(
-      {Key? key, required this.isSensorAvailable, required this.callback})
-      : super(key: key);
-  final String isSensorAvailable;
-  final Function callback;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Center(child: Text(isSensorAvailable)),
-        TextButton(
-          onPressed: () {
-            callback();
-          },
-          child: const Text("Check Sensor Availability"),
-        )
-      ],
     );
   }
 }

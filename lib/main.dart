@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:remind_me/business/note_list_model.dart';
 import 'package:remind_me/pages/home_page.dart';
+import 'package:remind_me/pages/register_page.dart';
 import 'package:remind_me/resource/strings.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -20,9 +22,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.blue,
           scaffoldBackgroundColor: Colors.grey.shade300),
-      home: HomePage(
-        listModel: notesListModel,
-      ),
+      // home: HomePage(
+      //   listModel: notesListModel,
+      // ),
+      home: const RegisterPage(),
     );
   }
 }
