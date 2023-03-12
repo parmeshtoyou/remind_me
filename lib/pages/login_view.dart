@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:remind_me/firebase_options.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+class LoginView extends StatefulWidget {
+  const LoginView({Key? key}) : super(key: key);
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
@@ -32,13 +32,13 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
+        title: const Text('Login'),
       ),
       body: FutureBuilder(
         future: Firebase.initializeApp(
             options: DefaultFirebaseOptions.currentPlatform),
         builder: (context, snapshot) {
-          switch(snapshot.connectionState) {
+          switch (snapshot.connectionState) {
             case ConnectionState.done:
               return Column(
                 children: [
@@ -47,16 +47,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     enableSuggestions: false,
                     autocorrect: false,
                     keyboardType: TextInputType.emailAddress,
-                    decoration:
-                    const InputDecoration(hintText: 'Enter your email here'),
+                    decoration: const InputDecoration(
+                        hintText: 'Enter your email here'),
                   ),
                   TextField(
                     controller: _password,
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
-                    decoration:
-                    const InputDecoration(hintText: 'Enter your password here'),
+                    decoration: const InputDecoration(
+                        hintText: 'Enter your password here'),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -64,22 +64,20 @@ class _RegisterPageState extends State<RegisterPage> {
                       final password = _password.text;
                       try {
                         final user = await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                            email: email, password: password);
-                        print("RegisteredUser: $user");
+                            .signInWithEmailAndPassword(
+                                email: email, password: password);
+                        print("LoginUser: $user");
                       } on FirebaseAuthException catch (e) {
                         print(
                             "LoginUser: code:${e.code}, message:${e.message}");
-                        if (e.code == 'weak-password') {
-                          print('Weak password');
-                        } else if (e.code == 'email-already-in-use') {
-                          print('Email is already in use');
-                        } else if(e.code == 'invalid-email'){
-                          print('invalid email entered');
+                        if (e.code == 'user-not-found') {
+                          print('User not found');
+                        } else if (e.code == 'wrong-password') {
+                          print('Wrong password');
                         }
                       }
                     },
-                    child: const Text('Register'),
+                    child: const Text('Login'),
                   ),
                 ],
               );
