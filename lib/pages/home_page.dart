@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
               if(user.emailVerified) {
                 return const NotesView();
               } else {
-                return const VerifyEmailView();
+                return const LoginView();
               }
             } else {
               return const LoginView();

@@ -68,14 +68,19 @@ class _RegisterViewState extends State<RegisterView> {
                         final email = _email.text;
                         final password = _password.text;
                         try {
-                          final user = await FirebaseAuth.instance
+                          await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
                                   email: email, password: password);
+                          Navigator.of(context).pushNamed(verifyEmailRoute);
                         } on FirebaseAuthException catch (e) {
-                          if (e.code == 'user-not-found') {
-                            await showErrorDialog(context, 'User not found');
-                          } else if (e.code == 'wrong-password') {
-                            await showErrorDialog(context, 'Wrong password');
+                          if (e.code == 'weak-password') {
+                            await showErrorDialog(context, 'Weak password');
+                          } else if (e.code == 'email-already-in-use') {
+                            await showErrorDialog(
+                                context, 'Email is already in use');
+                          } else if (e.code == 'invalid-email') {
+                            await showErrorDialog(
+                                context, 'This is an invalid email');
                           } else {
                             await showErrorDialog(context, 'Error: ${e.code}');
                           }
