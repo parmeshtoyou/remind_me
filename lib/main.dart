@@ -5,6 +5,7 @@ import 'package:remind_me/pages/home_page.dart';
 import 'package:remind_me/pages/login_view.dart';
 import 'package:remind_me/pages/register_view.dart';
 import 'package:remind_me/resource/strings.dart';
+import 'package:remind_me/routes.dart';
 import 'package:remind_me/widgets/notes_view.dart';
 
 void main() {
@@ -27,14 +28,12 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.grey.shade300),
       home: const HomePage(),
       routes: {
-        '/login': (context) => const LoginView(),
-        '/register': (context) => const RegisterView(),
-        '/notes': (context) => const NotesView()
+        loginRoute: (context) => const LoginView(),
+        registerRoute: (context) => const RegisterView(),
+        notesRoute: (context) => const NotesView()
       },
     );
   }
 }
 
-enum MenuAction {
-  logout
-}
+enum MenuAction { logout }
