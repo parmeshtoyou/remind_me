@@ -5,6 +5,7 @@ import 'package:remind_me/pages/home_page.dart';
 import 'package:remind_me/pages/login_view.dart';
 import 'package:remind_me/pages/register_view.dart';
 import 'package:remind_me/resource/strings.dart';
+import 'package:remind_me/widgets/notes_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
       home: const HomePage(),
       routes: {
         '/login': (context) => const LoginView(),
-        '/register': (context) => const RegisterView()
+        '/register': (context) => const RegisterView(),
+        '/notes': (context) => const NotesView()
       },
     );
   }
