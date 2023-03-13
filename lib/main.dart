@@ -32,3 +32,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+enum MenuAction {
+  logout
+}
