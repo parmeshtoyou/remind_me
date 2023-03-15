@@ -1,9 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:remind_me/firebase_options.dart';
 import 'package:remind_me/pages/login_view.dart';
-import 'package:remind_me/pages/verify_email_view.dart';
+import 'package:remind_me/services/auth/auth_service.dart';
 import 'package:remind_me/widgets/notes_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,14 +14,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform),
+      future: AuthService.firebase().initialize(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            final user = FirebaseAuth.instance.currentUser;
+            final user = AuthService.firebase().currentUser;
             if (user != null) {
-              if(user.emailVerified) {
+              if(user.isEmailVerified) {
                 return const NotesView();
               } else {
                 return const LoginView();
@@ -39,44 +35,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-/**
- * body: ReminderListWidget(
-    onNoteClickListener: (Note note) {
-    Navigator.push(
-    context,
-    MaterialPageRoute(
-    builder: (context) => NoteDetailPage(
-    note: note,
-    ),
-    ),
-    );
-    },
-    notesListModel: widget.listModel,
-    ),
-    floatingActionButton: FloatingActionButton(
-    onPressed: () {
-    Navigator.push(
-    context,
-    MaterialPageRoute(
-    builder: (context) => AddNotePage(
-    addNoteCallback: (Note newNote) {
-    setState(() {
-    widget.listModel.saveNote(newNote);
-    });
-    },
-    ),
-    ),
-    );
-    },
-    backgroundColor: Colors.purple,
-    child: const Icon(Icons.add),
-    ),
-    bottomNavigationBar: BottomAppBar(
-    color: Colors.teal,
-    child: Container(
-    height: Dimens.dimen_50,
-    ),
-    ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
- */

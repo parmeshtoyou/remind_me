@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:remind_me/business/note_list_model.dart';
 import 'package:remind_me/pages/home_page.dart';
@@ -37,5 +36,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-enum MenuAction { logout }
