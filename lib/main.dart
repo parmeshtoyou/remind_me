@@ -6,7 +6,8 @@ import 'package:remind_me/pages/register_view.dart';
 import 'package:remind_me/pages/verify_email_view.dart';
 import 'package:remind_me/resource/strings.dart';
 import 'package:remind_me/routes.dart';
-import 'package:remind_me/widgets/notes_view.dart';
+import 'package:remind_me/views/notes/new_note_view.dart';
+import 'package:remind_me/views/notes/notes_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
         notesRoute: (context) => const NotesView(),
-        verifyEmailRoute: (context) => const VerifyEmailView()
+        verifyEmailRoute: (context) => const VerifyEmailView(),
+        newNoteRoute: (context) => const NewNoteView()
       },
     );
   }

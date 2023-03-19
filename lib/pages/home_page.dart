@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:remind_me/pages/login_view.dart';
 import 'package:remind_me/services/auth/auth_service.dart';
-import 'package:remind_me/widgets/notes_view.dart';
+import 'package:remind_me/views/notes/notes_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
