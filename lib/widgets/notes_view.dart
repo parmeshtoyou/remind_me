@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:remind_me/enums/menu_action.dart';
 import 'package:remind_me/routes.dart';
 import 'package:remind_me/services/auth/auth_service.dart';
+import 'package:remind_me/services/crud/notes_service.dart';
 
 class NotesView extends StatefulWidget {
   const NotesView({Key? key}) : super(key: key);
@@ -13,6 +14,24 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
+  late final NotesService _notesService;
+
+  /// we will reach to this page when we will have email associated to an user,
+  /// force unwrap will not create any issue here
+  String get userEmail => AuthService.firebase().currentUser!.email!;
+
+  @override
+  void initState() {
+    _notesService = NotesService();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // _notesService.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +62,26 @@ class _NotesViewState extends State<NotesView> {
       ),
       body: Container(
         padding: const EdgeInsets.all(8.0),
-        child: const Text('Hello world'),
+        child: FutureBuilder(
+          future: _notesService.getOrCreateUser(email: userEmail),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                return StreamBuilder(
+                    stream: _notesService.allNotes,
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return const Text('Waiting for all notes...');
+                        default:
+                          return const CircularProgressIndicator();
+                      }
+                    });
+              default:
+                return const CircularProgressIndicator();
+            }
+          },
+        ),
       ),
     );
   }
