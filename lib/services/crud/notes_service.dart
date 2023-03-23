@@ -12,12 +12,16 @@ class NotesService {
   List<DatabaseNote> _notes = [];
   static final NotesService _instance = NotesService._internal();
 
-  NotesService._internal();
+  NotesService._internal() {
+    _notesStreamController =
+        StreamController<List<DatabaseNote>>.broadcast(onListen: () {
+      _notesStreamController.sink.add(_notes);
+    });
+  }
 
   factory NotesService() => _instance;
 
-  final _notesStreamController =
-      StreamController<List<DatabaseNote>>.broadcast();
+  late final StreamController<List<DatabaseNote>> _notesStreamController;
 
   Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
@@ -27,7 +31,6 @@ class NotesService {
       return user;
     } on CouldNotFindUserException {
       final createdUser = await createUser(email: email);
-      await createNote(owner: createdUser);
       return createdUser;
     } catch (e) {
       rethrow;
@@ -119,7 +122,10 @@ class NotesService {
     }
   }
 
-  Future<DatabaseNote> createNote({required DatabaseUser owner}) async {
+  Future<DatabaseNote> createNote({
+    required DatabaseUser owner,
+    required String text,
+  }) async {
     await _ensureDBIsOpen();
     final db = _getDatabaseOrThrow();
 
@@ -127,8 +133,9 @@ class NotesService {
     final dbUser = await getUser(email: owner.email);
     if (dbUser != owner) {
       throw CouldNotFindUserException();
+    } else if (text.isEmpty) {
+      throw NoteTextEmptyException();
     } else {
-      const text = '';
       //create the note
       final noteId = await db.insert(noteTable, {
         userIdColumn: owner.id,
@@ -142,6 +149,9 @@ class NotesService {
         text: text,
         isSyncedWithCloud: true,
       );
+      if (text.isEmpty) {
+        return note;
+      }
       _notes.add(note);
       _notesStreamController.add(_notes);
       return note;
@@ -225,13 +235,15 @@ class NotesService {
         _db = await openDatabase(dbPath);
 
         /// create the user table
-        await _db?.execute(createUserTable);
+        await _db!.execute(createUserTable);
 
         /// create the note table
         await _db?.execute(createNoteTable);
         await _cacheNotes(); //when opening db, pull all notes and cached them
       } on MissingPlatformDirectoryException {
         throw UnableToGetDocumentsDirectoryException();
+      } catch (e) {
+        print('some generic error:${e}');
       }
     }
   }

@@ -38,7 +38,7 @@ class _NewNoteViewState extends State<NewNoteView> {
     _textController.addListener(_textControllerListener);
   }
 
-  Future<DatabaseNote> createNewNote() async {
+  Future<DatabaseNote> createNewNote(String text) async {
     final existingNote = _note;
     if (existingNote != null) {
       return existingNote;
@@ -46,8 +46,8 @@ class _NewNoteViewState extends State<NewNoteView> {
     final currentUser = AuthService.firebase().currentUser!;
     final email = currentUser.email!;
     final owner = await _notesService.getUser(email: email);
-
-    return await _notesService.createNote(owner: owner);
+    _note = await _notesService.createNote(owner: owner, text: text);
+    return Future.value(_note);
   }
 
   void _deleteNoteIfTextIsEmpty() {
@@ -80,20 +80,46 @@ class _NewNoteViewState extends State<NewNoteView> {
         title: const Text('New Note'),
       ),
       body: FutureBuilder(
-        future: createNewNote(),
+        future: createNewNote('Hello world'),
         builder: (context, snapshot) {
+          print("snapshot:$snapshot");
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              print('tag-param: snapshot:${snapshot.data}');
-              //_note = snapshot.data as DatabaseNote;
+              if (snapshot.hasError) {
+                return Column(
+                  children: [
+                    TextField(
+                      controller: _textController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: const InputDecoration(
+                          hintText: 'Start typing your note...'),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {
+                      },
+                      child: const Text('Save'),
+                    )
+                  ],
+                );
+              }
               _setupTextControllerListener();
-              return TextField(
-                controller: _textController,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: 'Start typing your note...'
-                ),
+              return Column(
+                children: [
+                  TextField(
+                    controller: _textController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                        hintText: 'Start typing your note...'),
+                  ),
+                  OutlinedButton(
+                    onPressed: () {
+                      _saveNoteIfTextIsNotEmpty();
+                    },
+                    child: const Text('Save'),
+                  )
+                ],
               );
             default:
               return const CircularProgressIndicator();

@@ -23,13 +23,8 @@ class _NotesViewState extends State<NotesView> {
   @override
   void initState() {
     _notesService = NotesService();
+    print('userEmail:$userEmail');
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // _notesService.close();
-    super.dispose();
   }
 
   @override
@@ -76,10 +71,25 @@ class _NotesViewState extends State<NotesView> {
                 return StreamBuilder(
                     stream: _notesService.allNotes,
                     builder: (context, snapshot) {
+                      print("snapshot:$snapshot");
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
                         case ConnectionState.active:
-                          return const Text('Waiting for all notes...');
+                          if (snapshot.hasData) {
+                            final allNotes =
+                                snapshot.data as List<DatabaseNote>;
+                            print("allNotes:${allNotes}");
+                            return ListView.builder(
+                              itemCount: allNotes.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(allNotes[index].text),
+                                );
+                              },
+                            );
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
                         default:
                           return const CircularProgressIndicator();
                       }
