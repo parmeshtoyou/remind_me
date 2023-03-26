@@ -1,5 +1,5 @@
 const dbName = 'notes.db';
-const noteTable = 'notes';
+const notesTable = 'notes';
 const userTable = 'user';
 const idColumn = 'id';
 const emailColumn = 'email';
