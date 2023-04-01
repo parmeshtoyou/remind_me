@@ -29,7 +29,7 @@ class NotesService {
   Stream<List<DatabaseNote>> get allNotes =>
       _notesStreamController.stream.filter((note) {
         final currentUser = _user;
-        if(currentUser != null) {
+        if (currentUser != null) {
           return note.userId == currentUser.id;
         } else {
           throw UserShouldBeSetBeforeReadingNoteException();
@@ -42,13 +42,13 @@ class NotesService {
   }) async {
     try {
       final user = await getUser(email: email);
-      if(setAsCurrentUser) {
+      if (setAsCurrentUser) {
         _user = user;
       }
       return user;
     } on CouldNotFindUserException {
       final createdUser = await createUser(email: email);
-      if(setAsCurrentUser) {
+      if (setAsCurrentUser) {
         _user = createdUser;
       }
       return createdUser;
@@ -159,11 +159,8 @@ class NotesService {
     const text = '';
 
     //create the note
-    final noteId = await db.insert(notesTable, {
-      userIdColumn: owner.id,
-      textColumn: text,
-      isSyncedWithCloudColumn: 1
-    });
+    final noteId = await db.insert(notesTable,
+        {userIdColumn: owner.id, textColumn: text, isSyncedWithCloudColumn: 1});
 
     final note = DatabaseNote(
       id: noteId,

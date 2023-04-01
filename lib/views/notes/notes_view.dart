@@ -20,12 +20,11 @@ class _NotesViewState extends State<NotesView> {
 
   /// we will reach to this page when we will have email associated to an user,
   /// force unwrap will not create any issue here
-  String get userEmail => AuthService.firebase().currentUser!.email!;
+  String get userEmail => AuthService.firebase().currentUser!.email;
 
   @override
   void initState() {
     _notesService = NotesService();
-    print('userEmail:$userEmail');
     super.initState();
   }
 
@@ -73,7 +72,6 @@ class _NotesViewState extends State<NotesView> {
                 return StreamBuilder(
                     stream: _notesService.allNotes,
                     builder: (context, snapshot) {
-                      print("snapshot:$snapshot");
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
                         case ConnectionState.active:
