@@ -36,32 +36,28 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
 
   Future<DatabaseNote> createOrGetExistingNote(BuildContext context) async {
     final widgetNote = context.getArgument<DatabaseNote>();
-    // if(widgetNote != null) {
-    //   _note = widgetNote;
-    //   _textController.text = widgetNote.text;
-    //   print("test...1: ${_note?.text}");
-    //   return widgetNote;
-    // }
-    print("test...2: ${_note?.text}");
+    if(widgetNote != null) {
+      _note = widgetNote;
+      _textController.text = widgetNote.text;
+      return widgetNote;
+    }
     final existingNote = _note;
     if (existingNote != null) {
       return existingNote;
     }
-    print("test...3");
     final currentUser = AuthService.firebase().currentUser!;
     final email = currentUser.email!;
     final owner = await _notesService.getUser(email: email);
     _note =  await _notesService.createNote(owner: owner);
-    print("test...4 $_note");
     return Future.value(_note);
   }
 
-  void _deleteNoteIfTextIsEmpty() {
-    final note = _note;
-    if (_textController.text.isNotEmpty && note != null) {
-      _notesService.deleteNote(id: note.id);
-    }
-  }
+  // void _deleteNoteIfTextIsEmpty() {
+  //   final note = _note;
+  //   if (_textController.text.isNotEmpty && note != null) {
+  //     _notesService.deleteNote(id: note.id);
+  //   }
+  // }
 
   void _saveNoteIfTextIsNotEmpty() async {
     final note = _note;
@@ -78,7 +74,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   @override
   void dispose() {
     _saveNoteIfTextIsNotEmpty();
-    //_textController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -91,7 +87,6 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
       body: FutureBuilder(
         future: createOrGetExistingNote(context),
         builder: (context, snapshot) {
-          print("snapshot:$snapshot");
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               _setupTextControllerListener();

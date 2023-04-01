@@ -18,7 +18,6 @@ class NotesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("notesListSize:${notesList.length}");
     return ListView.builder(
       itemCount: notesList.length,
       itemBuilder: (context, index) {
