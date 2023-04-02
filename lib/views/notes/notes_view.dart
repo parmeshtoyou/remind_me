@@ -1,9 +1,12 @@
 import 'dart:developer' as devtools show log;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:remind_me/enums/menu_action.dart';
 import 'package:remind_me/routes.dart';
 import 'package:remind_me/services/auth/auth_service.dart';
+import 'package:remind_me/services/auth/bloc/auth_bloc.dart';
+import 'package:remind_me/services/auth/bloc/auth_event.dart';
 import 'package:remind_me/services/cloud/cloud_note.dart';
 import 'package:remind_me/services/cloud/firebase_cloud_storage.dart';
 import 'package:remind_me/utils/dialogs/logout_dialog.dart';
@@ -47,9 +50,7 @@ class _NotesViewState extends State<NotesView> {
               case MenuAction.logout:
                 final shouldLogout = await showLogoutDialog(context);
                 if (shouldLogout) {
-                  await AuthService.firebase().logOut();
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(loginRoute, (route) => false);
+                  context.read<AuthBloc>().add(const AuthEventLogout());
                 }
                 break;
             }
@@ -70,8 +71,7 @@ class _NotesViewState extends State<NotesView> {
               case ConnectionState.waiting:
               case ConnectionState.active:
                 if (snapshot.hasData) {
-                  final allNotes =
-                  snapshot.data as Iterable<CloudNote>;
+                  final allNotes = snapshot.data as Iterable<CloudNote>;
                   return NotesListView(
                     notesList: allNotes,
                     onDeleteNote: (note) async {
