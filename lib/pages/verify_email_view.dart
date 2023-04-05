@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:remind_me/routes.dart';
-import 'package:remind_me/services/auth/auth_service.dart';
 import 'package:remind_me/services/auth/bloc/auth_bloc.dart';
 import 'package:remind_me/services/auth/bloc/auth_event.dart';
 
@@ -20,7 +18,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
         title: const Text('Verify Email'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
             children: [

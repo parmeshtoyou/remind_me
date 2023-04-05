@@ -53,18 +53,22 @@ class _RegisterViewState extends State<RegisterView> {
           title: const Text('Register'),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: FutureBuilder(
             future: AuthService.firebase().initialize(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.done:
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const Text(
+                          'Enter your email and password to see your notes!'),
                       TextField(
                         controller: _email,
                         enableSuggestions: false,
                         autocorrect: false,
+                        autofocus: true,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
                             hintText: 'Enter your email here'),
@@ -77,21 +81,36 @@ class _RegisterViewState extends State<RegisterView> {
                         decoration: const InputDecoration(
                             hintText: 'Enter your password here'),
                       ),
-                      TextButton(
-                        onPressed: () async {
-                          final email = _email.text;
-                          final password = _password.text;
-                          context.read<AuthBloc>().add(
-                                AuthEventRegister(email, password),
-                              );
-                        },
-                        child: const Text('Register'),
+                      Center(
+                        child: Column(
+                          children: [
+                            TextButton(
+                              onPressed: () async {
+                                final email = _email.text;
+                                final password = _password.text;
+                                context.read<AuthBloc>().add(
+                                      AuthEventRegister(email, password),
+                                    );
+                              },
+                              child: const Text('Register'),
+                            ),
+                          ],
+                        ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          context.read<AuthBloc>().add(const AuthEventLogout());
-                        },
-                        child: const Text('Already registered? Login here!'),
+                      Center(
+                        child: Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                context
+                                    .read<AuthBloc>()
+                                    .add(const AuthEventLogout());
+                              },
+                              child:
+                                  const Text('Already registered? Login here!'),
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   );

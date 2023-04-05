@@ -7,6 +7,7 @@ import 'package:remind_me/pages/verify_email_view.dart';
 import 'package:remind_me/services/auth/bloc/auth_bloc.dart';
 import 'package:remind_me/services/auth/bloc/auth_event.dart';
 import 'package:remind_me/services/auth/bloc/auth_state.dart';
+import 'package:remind_me/views/forgot_password_view.dart';
 import 'package:remind_me/views/notes/notes_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,6 +41,8 @@ class _HomePageState extends State<HomePage> {
           return const LoginView();
         } else if (state is AuthStateRegistering) {
           return const RegisterView();
+        } else if (state is AuthStateForgotPassword) {
+          return const ForgotPasswordView();
         } else {
           return const Scaffold(
             body: CircularProgressIndicator(),
