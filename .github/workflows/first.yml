@@ -21,4 +21,8 @@ jobs:
         with:
           name: App
           path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Download a build Artifact
+        uses: actions/download-artifact@v2.1.1
+        with:
+          path: /Users/parmesh.mahore/downloaded_apk
   
