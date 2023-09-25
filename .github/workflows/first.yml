@@ -6,24 +6,7 @@ jobs:
     name: First job
     runs-on: ubuntu-latest
     steps:
-    - name: Current Date
-      run: date
-  job2:
-    name: Second job
-    runs-on: windows-latest
-    steps:
-    - name: Current Date
-      run: date
-  job3:
-    name: Third job
-    runs-on: macos-latest
-    steps:
-    - name: Current Date
-      run: date
-  job4:
-    name: Fourth job
-    runs-on: ubuntu-latest
-    needs: [job1, job2, job3]
-    steps:
-      - name: Current date
-        run: date
+    - name: Run gradle task
+      uses: jojo243/android-gradle-action@2.1.3
+            
+      
