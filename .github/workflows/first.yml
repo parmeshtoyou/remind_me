@@ -13,7 +13,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
       - name: Upload APK
-        uses: actions/upload-artifect@v3.1.3
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: App
           path: app/build/outputs/apk/debug/app-debug.apk
