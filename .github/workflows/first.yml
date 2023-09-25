@@ -1,12 +1,24 @@
-name: first
-on: [push, pull_request] 
-
+name: Android CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 jobs:
-  job1:
-    name: First job
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Run gradle task
-      uses: jojo243/android-gradle-action@2.1.3
-            
-      
+      - name: Checkout
+        uses: actions/checkout@4.1.0
+      - name: Setup JDK
+        uses: actions/setup-java@v3.13.0
+        with:
+          java-version: 1.8
+      - name: Build with Gradle
+        run: ./gradlew build
+      - name: Upload APK
+        uses: actions/upload-artifect@v3.1.3
+        with:
+          name: App
+          path: app/build/outputs/apk/debug/app-debug.apk
+  
